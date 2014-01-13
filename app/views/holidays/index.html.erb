@@ -1,0 +1,83 @@
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag "holiday", :plugin => "redmine_holidays" %>
+	<%= javascript_include_tag "holiday", :plugin => "redmine_holidays" %>
+<% end %>
+
+<%=render :partial => "nav" %>
+<h2><%=l(:label_holidays)%></h2>
+
+<%= form_tag({ :controller => 'holidays', :action => 'index' },
+            :method => :get, :id => 'query_form') do %>
+    <div id="query_form_content" class="hide-when-print">
+		<fieldset id="options" class="collapsable">
+			<legend><%= l(:label_range) %></legend>
+			<div>
+				<%= text_field_tag 'months', params[:months], :size => 2 %>
+				<%= t :label_monthsfrom %>
+				<%= select_month(params[:month].to_i, :prefix => "month", :discard_type => true) %>
+				<%= select_year(params[:year].to_i, :prefix => "year", :discard_type => true) %>
+
+				<%= link_to (l(:button_apply),
+							"#",
+							{
+								"class" => "icon icon-checked",
+								"onclick" => 'jQuery("#query_form").submit();return false;'
+							}) %>
+			</div>
+		</fieldset>
+    </div>
+<% end %>
+
+<div style="clear:both">
+	<table class="list holidays">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th class="column-holiday-type">Type</th>
+				<th class="column-users">Users</th>
+				<th class="column-date">Start Date</th>
+				<th class="column-date">End Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @holidays.each do |holiday| %>
+				<tr class="<%= cycle("odd", "even") %>">
+					<td>
+						<% if User.current.allowed_to?(:edit_holiday, nil, :global => true) %>
+							<%= link_to(holiday.title, {:controller => "holidays", :action => "edit", :id => holiday.id} ) %>
+						<% else %>
+							<%= holiday.title %>
+						<% end %>
+					</td>
+					<td class="column-holiday-type">
+						<%= holiday.holiday_types.name unless holiday.holiday_types.nil? %>
+					</td>
+					<td class="column-users">
+						<div class="collapsible <%= (holiday.users.count > 5) ? "collapsed" : nil %>">
+							<% holiday.users.each do |user| %>
+								<div class="user-name"><%= user.name %></div>
+							<% end %>
+						</div>
+						<% if holiday.users.count > 5 %>
+							<%= link_to l(:label_more), "#", {:class => "collapsible"} %>
+						<% end %>
+					</td>
+					<td class="column-date">
+						<%= holiday.start_date.strftime("%d/%m/%Y") if !holiday.start_date.nil? %>
+						&nbsp;
+					</td>
+					<td class="column-date">
+						<%= holiday.due_date.strftime("%d/%m/%Y") if !holiday.due_date.nil? %>
+						&nbsp;
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+
+<% content_for :sidebar do %>
+	<%=render :partial => "sidebar" %>
+<% end %>
+
+<% html_title(l(:label_holidays)) -%>

@@ -1,0 +1,21 @@
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag "holiday", :plugin => "redmine_holidays" %>
+	<%= javascript_include_tag "holiday", :plugin => "redmine_holidays" %>
+<% end %>
+
+<%=render :partial => "nav" %>
+
+<h2><%= l(:label_holiday_new) %></h2>
+
+
+<%= labelled_form_for @holiday, :url => { :action => "create" } do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_create) %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+	<%=render :partial => "sidebar" %>
+<% end %>
+
+<% html_title "#{l(:label_holiday_new)} - #{l(:label_holiday)}" %>

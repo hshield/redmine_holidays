@@ -1,0 +1,30 @@
+.controller-holidays .weekend {background-color: #eee;}
+
+/* :index */
+.controller-holidays .column-holiday-type {
+	width: 200px;
+}
+.controller-holidays .column-date {
+	width: 100px;
+}
+.controller-holidays .column-users {
+	width: 200px;
+}
+.controller-holidays .collapsible {
+	height: auto;
+}
+.controller-holidays .collapsible.collapsed {
+	height: 80px;
+	overflow: hidden;
+}
+
+/* :new or :edit */
+.controller-holidays .holiday-users .user-area {
+	display: block;
+	float: left;
+	width: 45%;
+	height: 150px;
+	border: 1px solid;
+	overflow-y: scroll;
+	margin-right: 10px;
+}

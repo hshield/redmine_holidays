@@ -1,0 +1,74 @@
+<%= error_messages_for @holiday %>
+
+<div class="box tabular">
+	<p><%= f.text_field :title, :required => true %></p>
+	<p><%= f.select :holiday_type_id, options_from_collection_for_select(@vacations, :id, :name) %></p>
+	<p>
+		<%= f.text_field :start_date, :size => 20,  :required => true %><%= calendar_for('holiday_start_date') %>
+		<%= f.time_select :start_time, :required => true %>
+	</p>
+	<p>
+		<%= f.text_field :due_date, :size => 20,  :required => true %><%= calendar_for('holiday_due_date') %>
+		<%= f.time_select :due_time, :required => true %>
+	</p>
+	<p class="holiday-users">
+		<label><%= l(:field_users) %></label>
+		<span class="list-users user-area">
+			<% selected_user_ids = @holiday.users.collect { |user| user.id } #@holiday_users.collect {|holiday_user| holiday_user.user_id} %>
+			<% @users.sort.each do |user| %>
+				<%
+					is_selected = false
+					is_selected = true unless selected_user_ids.index(user.id).nil?
+				%>
+				<%= check_box_tag ("holidays_users[user_ids][]",
+								user.id,
+								is_selected,
+								{
+									"id" => "holiday_user_checkbox_" + user.id.to_s,
+									"class" => "holiday-user-checkbox holiday-user-checkbox-" + user.id.to_s
+								}) %> <%= user.name %><br />
+			<% end %>
+		</span>
+		<span class="list-groups user-area">
+			<!-- select / unselect group of users --->
+			<% @groups.sort.each do |group| %>
+				<% group_users = group.users.collect {|user| user.id}.join(",") %>
+				<b><%= group.name %></b>:
+					<%= link_to(l(:label_select_all),
+								"#",
+								{
+									"class" => "group-select",
+									"data-group-users" => group_users,
+									"data-select" => 1
+								}) %>
+
+					/ <%= link_to(l(:label_unselect_all),
+								"#",
+								{
+									"class" => "group-select",
+									"data-group-users" => group_users,
+									"data-select" => 0
+								}) %>
+				<br />
+			<% end %>
+
+			<!-- select / unselect all -->
+			<%= link_to(l(:label_select_all),
+						"#",
+						{
+							"class" => "group-select",
+							"data-group-users" => @users.collect {|user| user.id }.join(","),
+							"data-select" => 1
+						}) %>
+
+			/ <%= link_to(l(:label_unselect_all),
+						"#",
+						{
+							"class" => "group-select",
+							"data-group-users" => @users.collect {|user| user.id }.join(","),
+							"data-select" => 0
+						}) %>
+		</span>
+		<span style="clear:both"></span>
+	</p>
+</div>

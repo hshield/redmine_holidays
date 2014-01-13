@@ -1,0 +1,44 @@
+<%
+	add_allowed = User.current.allowed_to?(:add_holiday, nil, :global => true)
+	edit_allowed = User.current.allowed_to?(:edit_holiday, nil, :global => true)
+	delete_allowed = User.current.allowed_to?(:delete_holiday, nil, :global => true)
+%>
+<div class="contextual">
+	<% if add_allowed %>
+		<%= link_to(l(:label_holiday_new) + ' |',
+					new_holiday_path(),
+					:class => 'icon icon-add'
+					)%>
+	<% end %>
+
+	<% unless @holiday.nil? || @holiday.id.nil? || @holiday.id == 0 %>
+		<% # copy allow both :add_holiday & :edit_holiday permissions %>
+		<% if add_allowed && edit_allowed %>
+			<%= link_to(l(:button_copy) + " |",
+						{
+							:controller => "holidays",
+							:action => "copy",
+							:id => @holiday.id
+						},
+						{
+							:class => "icon icon-copy"
+						}) %>
+		<% end %>
+
+		<% if delete_allowed %>
+			<%= link_to(l(:button_delete) + ' |',
+						{
+							:controller => "holidays",
+							:action => "destroy",
+							:id => @holiday.id
+						},
+						{
+							:class => 'icon icon-del',
+							"data-method" => "delete",
+							"data-confirm" => "Are you sure you want to delete this holiday?"
+						}) %>
+		<% end %>
+	<% end %>
+
+	<%= link_to(l(:label_all_holiday), holidays_path) %>
+</div>

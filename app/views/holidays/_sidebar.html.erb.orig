@@ -1,0 +1,9 @@
+<h3><%= l(:sidebar_holidays_about) %></h3>
+<%=textilizable (Setting.plugin_holidays['HOLIDAYS_ABOUT'] || l(:text_holidays_about))%>
+
+
+<br />
+<hr />
+<p>
+<%=link_to "Holidays","https://github.com/IceskYsl/holidays" %>  is a plugin for <%=link_to "Redmine","http://www.redmine.org/" %>, developed by <%=link_to "Iceskysl@eoe","http://my.eoe.cn/iceskysl"%>
+</p>

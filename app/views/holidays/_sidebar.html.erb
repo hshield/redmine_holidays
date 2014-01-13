@@ -1,0 +1,9 @@
+<% if User.current.allowed_to?(:manage_holiday_types, nil, :global => true) %>
+	<h3>
+		<%= link_to(l(:label_manage_holiday_types),
+					{
+						:controller => "holiday_types",
+						:action => "index"
+					}) %>
+	</h3>
+<% end %>
