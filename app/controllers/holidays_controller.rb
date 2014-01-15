@@ -16,9 +16,14 @@ class HolidaysController < ApplicationController
 		params[:months] = 6 unless params[:months]
 		params[:zoom] = 2 unless params[:zoom]
 
+		# use the holiday type color to display the list
+		params[:use_type_color] = "" unless params[:use_type_color]
+
 		@gantt = Redmine::Helpers::Gantt.new(params)
 		#retrieve_query
 		#@gantt.query = @query if @query.valid?
+
+		@use_type_color = (params[:use_type_color] != "")
 
 		@holidays = Holiday.all(:conditions => ["(start_date >= ?) AND (due_date <= ?)", @gantt.date_from, @gantt.date_to],
 								:order => "start_date ASC")

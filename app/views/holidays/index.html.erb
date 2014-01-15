@@ -8,23 +8,38 @@
 
 <%= form_tag({ :controller => 'holidays', :action => 'index' },
             :method => :get, :id => 'query_form') do %>
-    <div id="query_form_content" class="hide-when-print">
-		<fieldset id="options" class="collapsable">
+    <div id="query_form_content" class="holidays-form hide-when-print">
+		<fieldset id="range" class="float-left fieldset-range">
 			<legend><%= l(:label_range) %></legend>
 			<div>
+				<%=  %>
 				<%= text_field_tag 'months', params[:months], :size => 2 %>
 				<%= t :label_monthsfrom %>
 				<%= select_month(params[:month].to_i, :prefix => "month", :discard_type => true) %>
 				<%= select_year(params[:year].to_i, :prefix => "year", :discard_type => true) %>
-
-				<%= link_to (l(:button_apply),
-							"#",
-							{
-								"class" => "icon icon-checked",
-								"onclick" => 'jQuery("#query_form").submit();return false;'
-							}) %>
 			</div>
 		</fieldset>
+
+		<fieldset id="options" class="float-left fieldset-options">
+			<legend><%= l(:label_options) %></legend>
+			<div>
+				<%= check_box_tag "use_type_color",
+									"1",
+									@use_type_color %>
+				<label for="use_type_color"><%= l(:label_use_type_color) %></label>
+			</div>
+		</fieldset>
+
+		<div class="clear"></div>
+
+		<div class="form-buttons">
+			<%= link_to (l(:button_apply),
+						"#",
+						{
+							"class" => "icon icon-checked",
+							"onclick" => 'jQuery("#query_form").submit();return false;'
+						}) %>
+		</div>
     </div>
 <% end %>
 
@@ -40,19 +55,22 @@
 			</tr>
 		</thead>
 		<tbody>
+
 			<% @holidays.each do |holiday| %>
 				<%
 					style = ""
 
-					if !holiday.holiday_types.color.nil?
-						style <<= "background-color:" + holiday.holiday_types.color + ";"
-					end
+					if @use_type_color
+						if !holiday.holiday_types.color.nil?
+							style <<= "background-color:" + holiday.holiday_types.color + ";"
+						end
 
-					if !holiday.holiday_types.text_color.nil?
-						style <<= "color:" + holiday.holiday_types.text_color + ";"
+						if !holiday.holiday_types.text_color.nil?
+							style <<= "color:" + holiday.holiday_types.text_color + ";"
+						end
 					end
 				%>
-				<tr style="<%= style %>">
+				<tr style="<%= style %>" class="<%= @use_type_color ? nil : cycle("odd","even") %>">
 					<td>
 						<% if User.current.allowed_to?(:edit_holiday, nil, :global => true) %>
 							<%= link_to(holiday.title, {:controller => "holidays", :action => "edit", :id => holiday.id} ) %>

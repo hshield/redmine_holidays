@@ -7,6 +7,7 @@ en:
 
   label_range: "Range"
   label_monthsfrom: "months from"
+  label_use_type_color: "Use Holiday Type Color"
   label_more: "More"
 
   label_select_all: "Select all"

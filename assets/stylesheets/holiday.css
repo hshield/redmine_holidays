@@ -1,6 +1,20 @@
 .controller-holidays .weekend {background-color: #eee;}
 
 /* :index */
+.controller-holidays .holidays-form {
+	margin-bottom: 20px;
+}
+.controller-holidays .holidays-form fieldset {
+	width: 47%;
+	float: left;
+	min-height: 45px;
+}
+.controller-holidays .holidays-form .fieldset-options {
+	float: right;
+}
+.controller-holidays .form-buttons {
+	margin-top: 10px;
+}
 .controller-holidays .column-holiday-type {
 	width: 200px;
 }
