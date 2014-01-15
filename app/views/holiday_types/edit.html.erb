@@ -1,0 +1,24 @@
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag "colorpicker", :plugin => "redmine_holidays" %>
+	<%= stylesheet_link_tag "holiday", :plugin => "redmine_holidays" %>
+
+	<%= javascript_include_tag "colorpicker", :plugin => "redmine_holidays" %>
+	<%= javascript_include_tag "holiday_types", :plugin => "redmine_holidays" %>
+<% end %>
+
+<%=render :partial => "nav" %>
+
+<h2><%= l(:label_holiday_type_edit) %></h2>
+
+
+<%= labelled_form_for @holiday_type, :url => { :action => "update" } do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_update) %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+	<%=render :partial => "holidays/sidebar" %>
+<% end %>
+
+<% html_title "#{l(:label_holiday_type_edit)} - #{l(:label_holidays)}" %>

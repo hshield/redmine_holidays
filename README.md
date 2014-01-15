@@ -1,6 +1,6 @@
 # redmine_holidays
 
-Holidays plugin for Redmine 2.2.x.
+Holidays plugin for Redmine 2.2.x based on [holidays](https://github.com/IceskYsl/holidays)
 
 ## Installation
 

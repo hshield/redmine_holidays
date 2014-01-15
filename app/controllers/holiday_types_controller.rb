@@ -5,7 +5,7 @@ class HolidayTypesController < ApplicationController
 	before_filter :find_holiday_type, :only => [:edit, :update, :destroy]
 
 	def index
-		@all_vacations = HolidayTypes.all()
+		@holiday_types = HolidayTypes.all(:order => "name ASC")
 	end
 
 	def new
@@ -13,26 +13,27 @@ class HolidayTypesController < ApplicationController
 	end
 
 	def create
-		@holiday_type = HolidayTypes.new(params[:holiday_type])
+		@holiday_type = HolidayTypes.new(params[:holiday_types])
 		@holiday_type.save
 
-		redirect_to :index
+		redirect_to holiday_types_url
 	end
 
 	def edit
 	end
 
 	def update
-		if params[:holiday_type]
-			@holiday_type.update_attributes(params[:holiday_type])
+		if params[:holiday_types]
+			@holiday_type.update_attributes(params[:holiday_types])
 		end
 
-		redirect_to :index
+		redirect_to holiday_types_url
 	end
 
 	def destroy
 		@holiday_type.destroy
-		redirect_to :index
+
+		redirect_to holiday_types_url
 	end
 
 	private

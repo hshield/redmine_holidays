@@ -1,3 +1,9 @@
+<% if User.current.allowed_to?(:view_holidays, nil, :global => true) %>
+	<h3>
+		<%= link_to(l(:label_holidays), holidays_path()) %>
+	</h3>
+<% end %>
+
 <% if User.current.allowed_to?(:manage_holiday_types, nil, :global => true) %>
 	<h3>
 		<%= link_to(l(:label_manage_holiday_types),

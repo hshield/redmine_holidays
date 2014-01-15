@@ -1,0 +1,31 @@
+<%= error_messages_for @holiday_type %>
+
+<div class="box tabular">
+	<p><%= f.text_field :name,
+						{
+							:required => true,
+							"required" => "required"
+						} %></p>
+	<p>
+		<%= f.text_field :color,
+						{
+							:class => "color-picker",
+							:required => true,
+							:size => 10,
+							"data-preview" => "color_preview",
+							"required" => "required"
+						} %>
+		<span id="color_preview" class="color-picker-preview" style="background-color:<%= @holiday_type.color %>">&nbsp;</span>
+	</p>
+	<p>
+		<%= f.text_field :text_color,
+						{
+							:class => "color-picker",
+							:required => true,
+							:size => 10,
+							"data-preview" => "text_color_preview",
+							"required" => "required"
+						} %>
+		<span id="text_color_preview" class="color-picker-preview" style="background-color:<%= @holiday_type.text_color %>">&nbsp;</span>
+	</p>
+</div>

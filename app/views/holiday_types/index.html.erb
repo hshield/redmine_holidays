@@ -1,0 +1,60 @@
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag "holiday", :plugin => "redmine_holidays" %>
+<% end %>
+
+<%=render :partial => "nav" %>
+
+<h2><%=l(:label_manage_holiday_types)%></h2>
+
+<div>
+	<table class="list holiday-types">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th class="column-color">BG Color</th>
+				<th class="column-color">Text Color</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @holiday_types.each do |holiday_type| %>
+				<%
+					style = ""
+
+					if !holiday_type.color.nil?
+						style <<= "background-color:" + holiday_type.color + ";"
+					end
+
+					if !holiday_type.text_color.nil?
+						style <<= "color:" + holiday_type.text_color + ";"
+					end
+				%>
+				<tr style="<%= style %>">
+					<td>
+						<%
+							link_name = '<empty>'
+							link_name = holiday_type.name unless (holiday_type.name.nil?) || (holiday_type.name.empty?)
+						%>
+						<%= link_to(link_name,
+									{
+										:controller => "holiday_types",
+										:action => "edit",
+										:id => holiday_type.id
+									}) %>
+					</td>
+					<td class="column-color">
+						<%= holiday_type.color %>
+					</td>
+					<td class="column-color">
+						<%= holiday_type.text_color.nil? ? holiday_type.default_text_color : holiday_type.text_color %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+
+<% content_for :sidebar do %>
+	<%=render :partial => "holidays/sidebar" %>
+<% end %>
+
+<% html_title(l(:label_holidays)) -%>

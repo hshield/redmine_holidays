@@ -6,15 +6,7 @@ class CreateHolidayTypes < ActiveRecord::Migration
       t.datetime :created_at
     end
 
-#	HolidayTypes.reset_column_information
-#	reversible do |dir|
-#		dir.up {
-			# create default entries
-			HolidayTypes.create(:name => "Public Holiday", :color => "#fdc68c")
-			HolidayTypes.create(:name => "Annual Leave", :color => "#ffffdd")
-			HolidayTypes.create(:name => "Sick Leave", :color => "#dcbccf")
-#		}
-#	end
+	HolidayTypes.create(:name => "Holiday", :color => "#fdc68c")
 
 	# add column to holidays
     add_column :holidays, :holiday_type_id, :integer

@@ -28,3 +28,11 @@
 	overflow-y: scroll;
 	margin-right: 10px;
 }
+
+/* holiday_types */
+.controller-holiday_types .color-picker-preview {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #000;
+}

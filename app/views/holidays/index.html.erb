@@ -41,7 +41,18 @@
 		</thead>
 		<tbody>
 			<% @holidays.each do |holiday| %>
-				<tr class="<%= cycle("odd", "even") %>">
+				<%
+					style = ""
+
+					if !holiday.holiday_types.color.nil?
+						style <<= "background-color:" + holiday.holiday_types.color + ";"
+					end
+
+					if !holiday.holiday_types.text_color.nil?
+						style <<= "color:" + holiday.holiday_types.text_color + ";"
+					end
+				%>
+				<tr style="<%= style %>">
 					<td>
 						<% if User.current.allowed_to?(:edit_holiday, nil, :global => true) %>
 							<%= link_to(holiday.title, {:controller => "holidays", :action => "edit", :id => holiday.id} ) %>
