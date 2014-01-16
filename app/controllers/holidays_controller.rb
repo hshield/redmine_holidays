@@ -4,8 +4,8 @@ class HolidaysController < ApplicationController
 	unloadable
 
 	before_filter :find_holiday, :only => [:edit, :update, :destroy, :copy]
-	before_filter :get_all_vacations, :only => [:new, :edit, :copy]
-	before_filter :get_users_and_groups, :only => [:new, :edit, :copy]
+	before_filter :get_all_holiday_types, :only => [:new, :create, :edit, :update, :copy]
+	before_filter :get_users_and_groups, :only => [:new, :create, :edit, :update, :copy]
 
 	helper :gantt
 
@@ -20,8 +20,6 @@ class HolidaysController < ApplicationController
 		params[:use_type_color] = "" unless params[:use_type_color]
 
 		@gantt = Redmine::Helpers::Gantt.new(params)
-		#retrieve_query
-		#@gantt.query = @query if @query.valid?
 
 		@use_type_color = (params[:use_type_color] != "")
 
@@ -41,15 +39,19 @@ class HolidaysController < ApplicationController
 		@holiday.author = User.current
 		@holiday.save
 
+		if !@holiday.errors.empty?
+			render :action => "new"
+			return
+		end
+
 		# save the users
 		update_users(params)
 
-		redirect_to holidays_path()
+		redirect_to :action => "index", :notice => "Successful"
 	end
 
 	# edit holiday
 	def edit
-		@vacations = HolidayTypes.all;
 	end
 
 	# save the updated holiday
@@ -60,10 +62,16 @@ class HolidaysController < ApplicationController
 
 			# update the users
 			update_users(params)
+
+			if !@holiday.errors.empty?
+				render :action => "edit", :id => params[:id]
+				return
+			end
+
 		end
 
 		# redirect back to list
-		redirect_to holidays_path()
+		redirect_to :action => "index", :notice => "Successful"
 	end
 
 	# copy existing holiday
@@ -81,7 +89,7 @@ class HolidaysController < ApplicationController
 	def destroy
 		@holiday.destroy
 
-		redirect_to holidays_path()
+		redirect_to :action => "index", :notice => "Successful"
 	end
 
 	private
@@ -90,8 +98,8 @@ class HolidaysController < ApplicationController
 		@holiday = Holiday.find(params[:id])
 	end
 
-	def get_all_vacations
-		@vacations = HolidayTypes.all;
+	def get_all_holiday_types
+		@holiday_types = HolidayTypes.all(:order => "name ASC");
 	end
 
 	def get_users_and_groups
@@ -101,15 +109,19 @@ class HolidaysController < ApplicationController
 	end
 
 	def update_users(params)
-		if params[:holidays_users] && params[:holidays_users][:user_ids]
-			# delete existings
-			HolidaysUsers.where("holiday_id = ?", @holiday.id).delete_all
+		# users is required
+		if !params[:holidays_users] || !params[:holidays_users][:user_ids]
+			@holiday.errors.add :users, l(:label_is_required)
+			return
+		end
 
-			# add the user one-by-one
-			params[:holidays_users][:user_ids].each do |user_id|
-				holiday_user_obj = HolidaysUsers.create(:holiday_id => @holiday.id,
-														:user_id => user_id)
-			end
+		# delete existings first, so it can be used to clear existing users
+		HolidaysUsers.where("holiday_id = ?", @holiday.id).delete_all
+
+		# add the user one-by-one
+		params[:holidays_users][:user_ids].each do |user_id|
+			holiday_user_obj = HolidaysUsers.create(:holiday_id => @holiday.id,
+													:user_id => user_id)
 		end
 	end
 end

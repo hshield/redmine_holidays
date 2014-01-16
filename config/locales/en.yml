@@ -12,6 +12,9 @@ en:
 
   label_select_all: "Select all"
   label_unselect_all: "Unselect all"
+  label_invalid_text_color: "Invalid text color"
+  label_invalid_color: "Invalid color"
+  label_is_required: "is required"
 
   label_manage_holiday_types: "Manage Types"
   label_holiday_type_new: "New Type"

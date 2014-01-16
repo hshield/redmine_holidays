@@ -2,7 +2,7 @@
 
 <div class="box tabular">
 	<p><%= f.text_field :title, :required => true %></p>
-	<p><%= f.select :holiday_type_id, options_from_collection_for_select(@vacations, :id, :name) %></p>
+	<p><%= f.select :holiday_type_id, options_from_collection_for_select(@holiday_types, :id, :name) %></p>
 	<p>
 		<%= f.text_field :start_date, :size => 20,  :required => true %><%= calendar_for('holiday_start_date') %>
 		<%= f.time_select :start_time, :required => true %>
