@@ -28,6 +28,13 @@
 									@use_type_color %>
 				<label for="use_type_color"><%= l(:label_use_type_color) %></label>
 			</div>
+
+			<div>
+				<%= check_box_tag "show_past_holidays",
+									"1",
+									@show_past_holidays %>
+				<label for="show_past_holidays"><%= l(:label_show_past_holidays) %></label>
+			</div>
 		</fieldset>
 
 		<div class="clear"></div>
@@ -42,6 +49,8 @@
 		</div>
     </div>
 <% end %>
+
+<% # Need to separate the holidays that has passed todays %>
 
 <div style="clear:both">
 	<table class="list holidays">

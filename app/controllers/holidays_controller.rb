@@ -19,11 +19,35 @@ class HolidaysController < ApplicationController
 		# use the holiday type color to display the list
 		params[:use_type_color] = "" unless params[:use_type_color]
 
+		# show past holidays
+		params[:show_past_holidays] = "" unless params[:show_past_holidays]
+
 		@gantt = Redmine::Helpers::Gantt.new(params)
 
 		@use_type_color = (params[:use_type_color] != "")
+		@show_past_holidays = (params[:show_past_holidays] != "")
 
-		@holidays = Holiday.all(:conditions => ["due_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to],
+		# example
+		# range: jan 2014 - jun 2014
+		# holidays: 25/12/2013 - 3/1/2014	(start_date is out of range)
+		# holidays: 25/6/2014 - 3/7/2014	(due_date is out of range)
+		condition_clause = Array[
+			@gantt.date_from, @gantt.date_to,
+			@gantt.date_from, @gantt.date_to
+		]
+		condition_clause_string = "((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))"
+
+		if !@show_past_holidays
+			condition_clause_string = condition_clause_string +
+										" AND (due_date >= ?)"
+			condition_clause << Date.today
+		end
+
+		condition_clause.unshift condition_clause_string
+
+logger.debug(condition_clause.inspect)
+
+		@holidays = Holiday.all(:conditions => condition_clause,
 								:order => "start_date ASC")
 	end
 
