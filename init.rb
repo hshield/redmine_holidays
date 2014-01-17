@@ -8,15 +8,15 @@ Redmine::Plugin.register :redmine_holidays do
 	# use project module so it can be configured from roles & permissions in admin.
 	# the module per project isn't used
 	project_module :holidays do
-		permission :view_holidays, { :holidays => [:index, :show] }
-		permission :add_holiday, { :holidays => [:new, :copy] }
-		permission :edit_holiday, { :holidays => [:edit, :copy] }
+		permission :view_holidays, { :holidays => [:index] }
+		permission :add_holiday, { :holidays => [:new, :create, :copy] }
+		permission :edit_holiday, { :holidays => [:show, :edit, :update, :copy] }
 		permission :delete_holiday, { :holidays => :destroy }
 		permission :manage_holiday_types, { :holiday_types => [:index, :show, :new, :edit, :destroy] }
 	end
 
 	menu :top_menu,
-		:holidays,
+		:redmine_holidays,
 		{ :controller => 'holidays', :action => 'index' },
 		:caption => :label_menu_holidays,
 		:if => Proc.new {

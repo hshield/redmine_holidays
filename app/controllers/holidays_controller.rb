@@ -47,7 +47,13 @@ class HolidaysController < ApplicationController
 		# save the users
 		update_users(params)
 
-		redirect_to :action => "index", :notice => "Successful"
+		redirect_to holidays_url(), :notice => "Successful"
+	end
+
+	# show holiday
+	# redirect to edit for now
+	def show
+		redirect_to :action => "edit", :id => params[:id]
 	end
 
 	# edit holiday
@@ -71,7 +77,7 @@ class HolidaysController < ApplicationController
 		end
 
 		# redirect back to list
-		redirect_to :action => "index", :notice => "Successful"
+		redirect_to holidays_url(), :notice => "Successful"
 	end
 
 	# copy existing holiday
@@ -89,7 +95,7 @@ class HolidaysController < ApplicationController
 	def destroy
 		@holiday.destroy
 
-		redirect_to :action => "index", :notice => "Successful"
+		redirect_to holidays_url(), :notice => "Successful"
 	end
 
 	private
