@@ -23,7 +23,7 @@ class HolidaysController < ApplicationController
 
 		@use_type_color = (params[:use_type_color] != "")
 
-		@holidays = Holiday.all(:conditions => ["(start_date >= ?) AND (due_date <= ?)", @gantt.date_from, @gantt.date_to],
+		@holidays = Holiday.all(:conditions => ["due_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to],
 								:order => "start_date ASC")
 	end
 
