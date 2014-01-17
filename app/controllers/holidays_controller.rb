@@ -45,8 +45,6 @@ class HolidaysController < ApplicationController
 
 		condition_clause.unshift condition_clause_string
 
-logger.debug(condition_clause.inspect)
-
 		@holidays = Holiday.all(:conditions => condition_clause,
 								:order => "start_date ASC")
 	end
