@@ -1,3 +1,7 @@
+Rails.configuration.to_prepare do
+	require_dependency 'patches/user_patch'
+end
+
 Redmine::Plugin.register :redmine_holidays do
 	name 'Redmine Holidays'
 	author 'hshield'
