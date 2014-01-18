@@ -6,7 +6,7 @@ Redmine::Plugin.register :redmine_holidays do
 	name 'Redmine Holidays'
 	author 'hshield'
 	description 'This is a holidays plugin for Redmine'
-	version '0.1.0'
+	version '1.0'
 	url 'https://github.com/hshield/redmine_holidays'
 
 	# use project module so it can be configured from roles & permissions in admin.
