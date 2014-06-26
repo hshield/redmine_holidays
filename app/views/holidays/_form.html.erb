@@ -20,12 +20,12 @@
 					is_selected = false
 					is_selected = true unless selected_user_ids.index(user.id).nil?
 				%>
-				<%= check_box_tag ("holidays_users[user_ids][]",
+				<%= check_box_tag('holidays_users[user_ids][]',
 								user.id,
 								is_selected,
 								{
-									"id" => "holiday_user_checkbox_" + user.id.to_s,
-									"class" => "holiday-user-checkbox holiday-user-checkbox-" + user.id.to_s
+									'id' => 'holiday_user_checkbox_' + user.id.to_s,
+									'class' => 'holiday-user-checkbox holiday-user-checkbox-' + user.id.to_s
 								}) %> <%= user.name %><br />
 			<% end %>
 		</span>
